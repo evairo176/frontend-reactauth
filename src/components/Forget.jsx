@@ -14,17 +14,17 @@ export class Forget extends Component {
               <div className="card-body">
                 <h3 className="text-center">Forget Password</h3>
                 <form>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
+                  <div className="form-group">
+                    <label htmlFor="exampleInputEmail1">Email address</label>
                     <input
                       type="email"
-                      class="form-control"
+                      className="form-control"
                       id="exampleInputEmail1"
                       aria-describedby="emailHelp"
                       placeholder="Enter email"
                     />
                   </div>
-                  <button type="submit" class="btn btn-primary btn-block">
+                  <button type="submit" className="btn btn-primary btn-block">
                     Submit
                   </button>
                   <p className="mt-2 mb-0">

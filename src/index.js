@@ -1,17 +1,9 @@
+import axios from "axios";
 import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import reportWebVitals from "./reportWebVitals";
+import { createRoot } from "react-dom/client";
 import Header from "./cummon/Header";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <React.StrictMode>
-    <Header />
-  </React.StrictMode>
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const el = document.querySelector("#root");
+const root = createRoot(el);
+axios.defaults.baseURL = "http://127.0.0.1:8000/api";
+root.render(<Header />);

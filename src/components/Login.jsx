@@ -1,8 +1,39 @@
+import axios from "axios";
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, Route } from "react-router-dom";
 
 export class Login extends Component {
+  state = {
+    email: "",
+    password: "",
+    message: "",
+    loggedIn: false,
+  };
+
+  //   login submit
+  formSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const data = {
+        email: this.state.email,
+        password: this.state.password,
+      };
+      const response = await axios.post("/login", data);
+      localStorage.setItem("token", response.data.token);
+      this.setState({
+        loggedIn: true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   render() {
+    // setelah login redirect ke profile
+    if (this.state.loggedIn) {
+      return <Navigate to="/profile" replace />;
+    }
+
     return (
       <div>
         <br />
@@ -13,27 +44,35 @@ export class Login extends Component {
             <div className="card">
               <div className="card-body">
                 <h3 className="text-center">Login Account</h3>
-                <form>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
+                <form onSubmit={this.formSubmit}>
+                  <div className="form-group">
+                    <label htmlFor="exampleInputEmail1">Email address</label>
                     <input
                       type="email"
-                      class="form-control"
+                      className="form-control"
                       id="exampleInputEmail1"
                       aria-describedby="emailHelp"
                       placeholder="Enter email"
+                      name="email"
+                      onChange={(e) => {
+                        this.setState({ email: e.target.value });
+                      }}
                     />
                   </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
+                  <div className="form-group">
+                    <label htmlFor="exampleInputPassword1">Password</label>
                     <input
                       type="password"
-                      class="form-control"
+                      className="form-control"
                       id="exampleInputPassword1"
                       placeholder="Password"
+                      name="password"
+                      onChange={(e) => {
+                        this.setState({ password: e.target.value });
+                      }}
                     />
                   </div>
-                  <button type="submit" class="btn btn-primary btn-block">
+                  <button type="submit" className="btn btn-primary btn-block">
                     Submit
                   </button>
                   <p className="mt-2">

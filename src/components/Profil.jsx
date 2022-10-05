@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 
 export class Profil extends Component {
   render() {
@@ -13,9 +12,9 @@ export class Profil extends Component {
             <div className="card">
               <div className="card-body">
                 <h3 className="text-center">Profile Account</h3>
-                <ul class="list-group">
-                  <li class="list-group-item">Name : Dicki Prasetya</li>
-                  <li class="list-group-item">Email : dicki@gmail.com</li>
+                <ul className="list-group">
+                  <li className="list-group-item">Name : Dicki Prasetya</li>
+                  <li className="list-group-item">Email : dicki@gmail.com</li>
                 </ul>
               </div>
             </div>
