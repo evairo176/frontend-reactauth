@@ -2,7 +2,48 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 export class Nav extends Component {
+  state = {
+    loggedOut: "",
+  };
+
+  logout = () => {
+    localStorage.clear();
+    this.props.setUser(null);
+  };
   render() {
+    let button;
+    let profile;
+    if (localStorage.getItem("token")) {
+      button = (
+        <ul className="navbar-nav ml-auto">
+          <li className="nav-item">
+            <Link className="nav-link" to="/" onClick={this.logout}>
+              Logout
+            </Link>
+          </li>
+        </ul>
+      );
+      profile = (
+        <Link className="nav-link" to="/profile">
+          Profile
+        </Link>
+      );
+    } else {
+      button = (
+        <ul className="navbar-nav ml-auto">
+          <li className="nav-item">
+            <Link className="nav-link" to="/login">
+              Login
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/register">
+              Register
+            </Link>
+          </li>
+        </ul>
+      );
+    }
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <Link className="navbar-brand" to="/">
@@ -27,24 +68,9 @@ export class Nav extends Component {
                 Home
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/profile">
-                Profile
-              </Link>
-            </li>
+            <li className="nav-item">{profile}</li>
           </ul>
-          <ul className="navbar-nav ml-auto">
-            <li className="nav-item">
-              <Link className="nav-link" to="/login">
-                Login
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/register">
-                Register
-              </Link>
-            </li>
-          </ul>
+          {button}
         </div>
       </nav>
     );

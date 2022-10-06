@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 export class Home extends Component {
   render() {
-    return <div>dadawdawddwdad</div>;
+    return <div className="container-fluid">dadawdawddwdad</div>;
   }
 }
 

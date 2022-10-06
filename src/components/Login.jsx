@@ -1,13 +1,12 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { Link, Navigate, Route } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 export class Login extends Component {
   state = {
     email: "",
     password: "",
     message: "",
-    loggedIn: false,
   };
 
   //   login submit
@@ -23,19 +22,31 @@ export class Login extends Component {
       this.setState({
         loggedIn: true,
       });
+      this.props.setUser(response.data.user);
     } catch (error) {
-      console.log(error);
+      this.setState({ message: error.response.data.message });
     }
   };
 
   render() {
+    // console.log(this.props.user);
     // setelah login redirect ke profile
     if (this.state.loggedIn) {
       return <Navigate to="/profile" replace />;
     }
 
+    let error;
+    if (this.state.message) {
+      error = (
+        <div>
+          <div className="alert alert-danger" role="alert">
+            {this.state.message}
+          </div>
+        </div>
+      );
+    }
     return (
-      <div>
+      <div className="container-fluid">
         <br />
         <br />
         <br />
@@ -44,6 +55,7 @@ export class Login extends Component {
             <div className="card">
               <div className="card-body">
                 <h3 className="text-center">Login Account</h3>
+                {error}
                 <form onSubmit={this.formSubmit}>
                   <div className="form-group">
                     <label htmlFor="exampleInputEmail1">Email address</label>
@@ -76,8 +88,7 @@ export class Login extends Component {
                     Submit
                   </button>
                   <p className="mt-2">
-                    Forget My Password{" "}
-                    <Link to="/forget-password">Click Here</Link>
+                    Forget My Password <Link to="/forget">Click Here</Link>
                   </p>
                 </form>
               </div>

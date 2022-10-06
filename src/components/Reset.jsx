@@ -2,45 +2,49 @@ import axios from "axios";
 import React, { Component } from "react";
 import { Link, Navigate } from "react-router-dom";
 
-export class Register extends Component {
+export class Reset extends Component {
   state = {
-    name: "",
+    token: "",
     email: "",
     password: "",
     password_confirmation: "",
     message: "",
   };
-  //   Register submit
+
+  //   reset submit
   formSubmit = async (e) => {
     e.preventDefault();
     try {
       const data = {
-        name: this.state.name,
+        token: this.state.token,
         email: this.state.email,
         password: this.state.password,
         password_confirmation: this.state.password_confirmation,
       };
-      const response = await axios.post("/register", data);
-      localStorage.setItem("token", response.data.token);
-      this.setState({
-        loggedIn: true,
-      });
-      this.props.setUser(response.data.user);
+      const response = await axios.post("/resetpassword", data);
+      this.setState({ message: response.data.message });
+      console.log(response.data.message);
+      document.getElementById("resetForm").reset();
     } catch (error) {
+      console.log(error);
+      document.getElementById("resetForm").reset();
       this.setState({ message: error.response.data.message });
     }
   };
-
   render() {
-    // console.log();
-    // after register redirect to
-    if (this.state.loggedIn) {
-      return <Navigate to="/profile" replace />;
+    if (this.state.reset) {
+      return <Navigate to="/login" replace />;
     }
 
     let error;
     if (this.state.message) {
-      error = "is-invalid";
+      error = (
+        <div>
+          <div className="alert alert-danger" role="alert">
+            {this.state.message}
+          </div>
+        </div>
+      );
     }
 
     return (
@@ -51,20 +55,24 @@ export class Register extends Component {
             <div className="card">
               <div className="card-body">
                 <h3 className="text-center">Register Account</h3>
-
-                <form onSubmit={this.formSubmit}>
+                {error}
+                <form onSubmit={this.formSubmit} id="resetForm">
                   <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">Full Name</label>
+                    <label htmlFor="exampleInputEmail1">Pin Code</label>
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Enter name"
-                      name="name"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      placeholder="Enter email"
+                      name="token"
                       onChange={(e) => {
-                        this.setState({ name: e.target.value });
+                        this.setState({ token: e.target.value });
                       }}
                     />
-                    <div className="text-danger">{this.state.message.name}</div>
+                    <div className="text-danger">
+                      {this.state.message.token}
+                    </div>
                   </div>
                   <div className="form-group">
                     <label htmlFor="exampleInputEmail1">Email address</label>
@@ -84,7 +92,7 @@ export class Register extends Component {
                     </div>
                   </div>
                   <div className="form-group">
-                    <label htmlFor="exampleInputPassword1">Password</label>
+                    <label htmlFor="exampleInputPassword1">New Password</label>
                     <input
                       type="password"
                       className="form-control"
@@ -138,4 +146,4 @@ export class Register extends Component {
   }
 }
 
-export default Register;
+export default Reset;
