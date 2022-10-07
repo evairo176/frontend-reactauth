@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Navigate } from "react-router-dom";
 
 export class Profil extends Component {
   render() {
@@ -7,6 +8,10 @@ export class Profil extends Component {
     if (this.props.user) {
       name = this.props.user.name;
       email = this.props.user.email;
+    }
+
+    if (!localStorage.getItem("token")) {
+      return <Navigate to="/login" replace />;
     }
     return (
       <div className="container-fluid">

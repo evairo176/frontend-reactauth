@@ -34,7 +34,9 @@ export class Login extends Component {
     if (this.state.loggedIn) {
       return <Navigate to="/profile" replace />;
     }
-
+    if (localStorage.getItem("token")) {
+      return <Navigate to="/profile" replace />;
+    }
     let error;
     if (this.state.message) {
       error = (
